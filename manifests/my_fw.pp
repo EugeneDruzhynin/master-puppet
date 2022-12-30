@@ -1,4 +1,4 @@
-  class Firewall {
+  class my_fw {
     Firewall {
       require => undef,
     }
