@@ -15,7 +15,7 @@ node slave2.puppet{
 }
 
  class my_fw {
-    Firewall {
+    firewall {
       require => undef,
     }
 
