@@ -1,4 +1,4 @@
-  class firewall {
+  class Firewall {
     Firewall {
       require => undef,
     }
