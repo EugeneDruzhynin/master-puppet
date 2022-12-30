@@ -15,7 +15,7 @@ node slave2.puppet{
 }
 
  class my_fw {
-    firewall {
+    Firewall {
       require => undef,
     }
 
@@ -24,8 +24,7 @@ node slave2.puppet{
       action => accept,
       proto  => 'tcp'
     }
-
-    firewall { '101 forward port 80 to 8080':
+    -> firewall { '101 forward port 80 to 8080':
       table   => 'nat',
       chain   => 'PREROUTING',
       jump    => 'REDIRECT',
@@ -34,7 +33,7 @@ node slave2.puppet{
       toports => 8080
     }
 
-    firewall { '101 forward port 81 to 8081':
+    -> firewall { '101 forward port 81 to 8081':
       table   => 'nat',
       chain   => 'PREROUTING',
       jump    => 'REDIRECT',
