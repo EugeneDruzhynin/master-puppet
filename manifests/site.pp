@@ -1,14 +1,12 @@
-node master.puppet{
- include my_fw
-}
-
 node slave1.puppet{
+ include my_fw
   package { 'httpd':
     ensure => installed,
   }
 }
 
 node slave2.puppet{
+ include my_fw
   package { 'httpd':
     ensure => installed,
   }
