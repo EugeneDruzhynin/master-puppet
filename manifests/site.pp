@@ -1,4 +1,5 @@
  class my_fw {
+ 
      firewall { '100 accept port 8080 and 8081':
       dport  => [8080, 8081],
       action => accept,
