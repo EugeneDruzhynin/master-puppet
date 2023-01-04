@@ -1,17 +1,3 @@
-node slave1.puppet{
- include my_fw
-  package { 'httpd':
-    ensure => installed,
-  }
-}
-
-node slave2.puppet{
- include my_fw
-  package { 'httpd':
-    ensure => installed,
-  }
-}
-
  class my_fw {
     Firewall {
       require => undef,
@@ -41,3 +27,16 @@ node slave2.puppet{
     }
 
   }
+node slave1.puppet{
+ include my_fw
+  package { 'httpd':
+    ensure => installed,
+  }
+}
+
+node slave2.puppet{
+ include my_fw
+  package { 'httpd':
+    ensure => installed,
+  }
+}
