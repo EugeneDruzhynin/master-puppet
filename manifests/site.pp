@@ -1,39 +1,50 @@
- class my_fw {
- 
-     firewall { '100 accept port 8080 and 8081':
-      dport  => [8080, 8081],
-      action => accept,
-      proto  => 'tcp'
-    }
-    -> firewall { '101 forward port 80 to 8080':
-      table   => 'nat',
-      chain   => 'PREROUTING',
-      jump    => 'REDIRECT',
-      proto   => 'tcp',
-      dport   => 80,
-      toports => 8080
-    }
-
-    -> firewall { '101 forward port 81 to 8081':
-      table   => 'nat',
-      chain   => 'PREROUTING',
-      jump    => 'REDIRECT',
-      proto   => 'tcp',
-      dport   => 81,
-      toports => 8081
-    }
-
-  }
-node slave1.puppet{
- include my_fw
-  package { 'httpd':
-    ensure => installed,
+node master.puppet {
+  service { 'firewalld':
+    ensure => stopped,
+    enable => false,
   }
 }
-
-node slave2.puppet{
- include my_fw
+node slave1.puppet {
   package { 'httpd':
     ensure => installed,
+    name   => httpd,
+  }
+  file { '/var/www/html/index.html':
+    ensure => present,
+    source => "/vagrant/04-puppet/index.html",
+  }
+  service { 'httpd':
+    ensure => running,
+    enable => true,
+  }
+  service { 'firewalld':
+    ensure => stopped,
+    enable => false,
+  }
+}
+node slave2.puppet {
+  package { 'httpd':
+    ensure => installed,
+    name   => httpd,
+  }
+  package { 'php':
+    ensure => installed,
+    name   => php,
+  }
+  file { '/var/www/html/index.php':
+    ensure => present,
+    source => "/vagrant/04-puppet/index.php",
+  }
+  service { 'php-fpm':
+    ensure => running,
+    enable => true,
+  }
+  service { 'httpd':
+    ensure => running,
+    enable => true,
+  }
+  service { 'firewalld':
+    ensure => stopped,
+    enable => false,
   }
 }
